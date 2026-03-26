@@ -7,6 +7,7 @@ export const Sidebar: React.FC = () => {
   const currentPath = location.pathname;
   const isSidebarCollapsed = useInventoryStore(state => state.isSidebarCollapsed);
   const setSidebarCollapsed = useInventoryStore(state => state.setSidebarCollapsed);
+  const layoutMode = useInventoryStore(state => state.layoutMode);
 
   const navItems = [
     { name: '掃瞄出入庫', path: '/', icon: ScanLine },
@@ -17,8 +18,14 @@ export const Sidebar: React.FC = () => {
 
   return (
     <>
-      {/* Desktop Sidebar (Hidden in Mobile-Primary mode) */}
-      <aside className="hidden">
+      {/* Desktop Sidebar (Conditional) */}
+      <aside className={`
+        ${layoutMode === 'mobile' ? 'hidden' : ''}
+        ${layoutMode === 'desktop' ? 'flex' : ''}
+        ${layoutMode === 'auto' ? 'hidden md:flex' : ''}
+        flex-col h-screen bg-[#0a0c10] border-r border-gray-800/60 fixed left-0 top-0 shadow-2xl overflow-y-auto transition-all duration-300 z-[60] 
+        ${isSidebarCollapsed ? 'w-20' : 'w-64'}
+      `}>
         <div className={`p-6 pb-4 relative ${isSidebarCollapsed ? 'px-4' : ''}`}>
           {/* Toggle Button */}
           <button 
@@ -92,8 +99,13 @@ export const Sidebar: React.FC = () => {
         </div>
       </aside>
 
-      {/* Mobile-Primary Bottom Bar */}
-      <nav className="fixed bottom-0 left-0 right-0 h-[72px] bg-[#0a0c10]/95 backdrop-blur-xl border-t border-gray-800/80 z-50 flex justify-center items-center px-1 pb-safe shadow-[0_-10px_40px_rgba(0,0,0,0.5)]">
+      {/* Bottom Navigation Bar (Conditional) */}
+      <nav className={`
+        ${layoutMode === 'mobile' ? 'fixed' : ''}
+        ${layoutMode === 'desktop' ? 'hidden' : ''}
+        ${layoutMode === 'auto' ? 'md:hidden fixed' : ''}
+        bottom-0 left-0 right-0 h-[72px] bg-[#0a0c10]/95 backdrop-blur-xl border-t border-gray-800/80 z-50 flex justify-center items-center px-1 pb-safe shadow-[0_-10px_40px_rgba(0,0,0,0.5)]
+      `}>
         <div className="w-full max-w-lg flex justify-around items-center">
         {navItems.map((item) => {
           const isActive = currentPath === item.path || (item.path !== '/' && currentPath.startsWith(item.path));

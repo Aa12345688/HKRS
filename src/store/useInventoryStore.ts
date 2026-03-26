@@ -40,6 +40,7 @@ interface InventoryState {
   theme: 'dark' | 'light';
   scanMode: 'auto' | 'manual';
   isSidebarCollapsed: boolean;
+  layoutMode: 'auto' | 'mobile' | 'desktop';
   
   // Actions
   addPart: (part: PartItem) => { success: boolean, message: string };
@@ -47,6 +48,7 @@ interface InventoryState {
   setTheme: (theme: 'dark' | 'light') => void;
   setScanMode: (mode: 'auto' | 'manual') => void;
   setSidebarCollapsed: (collapsed: boolean) => void;
+  setLayoutMode: (mode: 'auto' | 'mobile' | 'desktop') => void;
   clearTransactions: () => void;
 }
 
@@ -58,6 +60,7 @@ export const useInventoryStore = create<InventoryState>()(
       theme: 'dark',
       scanMode: 'auto',
       isSidebarCollapsed: false,
+      layoutMode: 'auto',
 
       addPart: (part) => {
         const state = get();
@@ -102,6 +105,7 @@ export const useInventoryStore = create<InventoryState>()(
       setTheme: (theme) => set({ theme }),
       setScanMode: (scanMode) => set({ scanMode }),
       setSidebarCollapsed: (isSidebarCollapsed) => set({ isSidebarCollapsed }),
+      setLayoutMode: (layoutMode) => set({ layoutMode }),
       clearTransactions: () => set({ transactions: [] }),
     }),
     {

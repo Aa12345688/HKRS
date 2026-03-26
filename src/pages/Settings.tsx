@@ -1,9 +1,9 @@
 import React from 'react';
-import { Settings as SettingsIcon, Bell, Shield, Database, Smartphone, Moon, Sun } from 'lucide-react';
+import { Settings as SettingsIcon, Bell, Shield, Database, Smartphone, Moon, Sun, Monitor } from 'lucide-react';
 import { useInventoryStore } from '../store/useInventoryStore';
 
 export const Settings: React.FC = () => {
-  const { theme, setTheme, scanMode, setScanMode } = useInventoryStore();
+  const { theme, setTheme, scanMode, setScanMode, layoutMode, setLayoutMode } = useInventoryStore();
 
   return (
     <div className="max-w-4xl mx-auto space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700 pb-20 md:pb-0">
@@ -62,6 +62,37 @@ export const Settings: React.FC = () => {
                   <div className={`w-4 h-4 rounded-full border-2 ${scanMode === 'manual' ? 'border-blue-500 bg-blue-500' : 'border-gray-600'}`}></div>
                 </label>
               </div>
+            </div>
+
+            <div className="h-px bg-gray-800/80 w-full"></div>
+
+            {/* Layout Mode Toggle */}
+            <div>
+              <label className="text-xs font-bold text-gray-500 tracking-widest uppercase block mb-3">介面佈局模式</label>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <button 
+                  onClick={() => setLayoutMode('auto')}
+                  className={`flex flex-col items-center gap-2 p-4 rounded-xl font-bold border-2 transition-all ${layoutMode === 'auto' ? 'bg-[#050608] border-blue-500 text-white' : 'bg-gray-900/50 border-transparent text-gray-400 hover:text-white'}`}
+                >
+                  <SettingsIcon size={20} />
+                  <span className="text-sm">系統自動</span>
+                </button>
+                <button 
+                  onClick={() => setLayoutMode('mobile')}
+                  className={`flex flex-col items-center gap-2 p-4 rounded-xl font-bold border-2 transition-all ${layoutMode === 'mobile' ? 'bg-[#050608] border-blue-500 text-white' : 'bg-gray-900/50 border-transparent text-gray-400 hover:text-white'}`}
+                >
+                  <Smartphone size={20} />
+                  <span className="text-sm">強制手機版</span>
+                </button>
+                <button 
+                  onClick={() => setLayoutMode('desktop')}
+                  className={`flex flex-col items-center gap-2 p-4 rounded-xl font-bold border-2 transition-all ${layoutMode === 'desktop' ? 'bg-[#050608] border-blue-500 text-white' : 'bg-gray-900/50 border-transparent text-gray-400 hover:text-white'}`}
+                >
+                  <Monitor size={20} />
+                  <span className="text-sm">強制電腦版</span>
+                </button>
+              </div>
+              <p className="text-[10px] text-gray-500 mt-3 italic">「強制手機版」會在電腦畫面上呈現置中的行動端 HUD 容器。</p>
             </div>
 
           </div>
