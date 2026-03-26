@@ -46,8 +46,8 @@ export const BulkPrintPage: React.FC = () => {
   return (
     <div className="space-y-8 animate-in fade-in duration-700">
       {/* Back Header - Hidden when printing */}
-      <header className="flex flex-col md:flex-row md:items-center justify-between gap-4 no-print">
-        <div>
+      <header className="flex flex-col md:flex-row md:items-center justify-between gap-4 no-print print:hidden">
+        <div className="print:hidden">
            <button 
              onClick={() => navigate(-1)}
              className="flex items-center gap-2 text-gray-500 hover:text-blue-400 transition-colors font-bold text-xs uppercase tracking-widest mb-2"
@@ -60,7 +60,7 @@ export const BulkPrintPage: React.FC = () => {
            <p className="text-gray-400 font-medium mt-1">即將列印 {selectedParts.length} 項產品標籤</p>
         </div>
         
-        <div className="flex gap-3">
+        <div className="flex gap-3 print:hidden">
           <Button variant="ghost" onClick={() => window.location.reload()} className="bg-gray-900 border-gray-800">
              刷新排版
           </Button>

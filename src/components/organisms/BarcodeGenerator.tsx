@@ -103,8 +103,8 @@ export const BarcodeGenerator: React.FC<BarcodeGeneratorProps> = ({ skuCode, pro
         </div>
       </div>
 
-      {/* Action (Hidden in print) */}
-      <div className="mt-4 flex justify-center no-print">
+      {/* Action (Hidden in print) - Using print:hidden as double safety */}
+      <div className="mt-4 flex justify-center no-print print:hidden">
         <button 
           onClick={handlePrint}
           className="bg-black text-white px-8 py-2.5 rounded-full font-black text-[11px] transition-all flex items-center gap-2 shadow-xl active:scale-95 border-2 border-emerald-500/50 hover:bg-emerald-600 hover:border-emerald-400 group"

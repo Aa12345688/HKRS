@@ -135,14 +135,15 @@ body {
         visibility: visible !important;
     }
 
-    /* 3. Force Label Visibility */
-    .print-container, 
-    .print-container * {
+    /* 3. Force Label Visibility (Refined) */
+    .print-container {
         visibility: visible !important;
-        display: block !important;
         opacity: 1 !important;
         background: white !important;
-        color: black !important;
+    }
+
+    .print-container * {
+        visibility: visible !important;
     }
 
     svg, canvas, img {
