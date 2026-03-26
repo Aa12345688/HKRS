@@ -74,12 +74,9 @@ export const BarcodeGenerator: React.FC<BarcodeGeneratorProps> = ({ skuCode, pro
           </div>
         </div>
 
-        {/* Right: QR & Price */}
-        <div className="shrink-0 flex flex-col items-center justify-between border-l border-black/10 pl-4 print:border-black/20">
+        {/* Right: QR Code Only */}
+        <div className="shrink-0 flex items-center justify-center border-l border-black/10 pl-6 print:border-black/20">
           <canvas ref={qrcodeCanvasRef} className="w-16 h-16"></canvas>
-          <div className="text-center mt-1">
-             <p className="text-[14px] font-black leading-none whitespace-nowrap">NT$ {price?.toLocaleString() || '0'}</p>
-          </div>
         </div>
       </div>
 
