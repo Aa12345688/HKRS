@@ -31,7 +31,7 @@ export const Scan: React.FC = () => {
     
     setStatus('loading');
     
-    setTimeout(() => {
+    setTimeout(async () => {
       const part = parts.find(p => p.id === targetCode || p.name === targetCode);
       
       if (!part) {
@@ -41,7 +41,7 @@ export const Scan: React.FC = () => {
         speak(`找不到對應產品`);
       } else {
         const amount = mode === 'IN' ? quantity : -quantity;
-        const success = updateStock(part.id, amount, '現場掃描');
+        const success = await updateStock(part.id, amount, '現場掃描');
         
         if (success) {
           setStatus('success');
