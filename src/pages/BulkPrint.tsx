@@ -72,20 +72,20 @@ export const BulkPrintPage: React.FC = () => {
 
       {/* Printing Surface */}
       <div className="bg-[#0f1115] border border-gray-800 rounded-3xl p-8 shadow-2xl print:bg-white print:border-none print:p-0 print:shadow-none min-h-[80vh]">
-         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 print:grid-cols-2 print:gap-4 print:block">
+         {/* Grid for labels - 1 column on mobile, 2 for print, 3 for large desktop preview */}
+         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 print:grid print:grid-cols-2 print:gap-x-4 print:gap-y-6 print:w-full">
             {selectedParts.map(part => (
-              <div key={part.id} className="bg-gray-900/50 border border-gray-800 rounded-2xl p-6 hover:border-blue-500/30 transition-all print:border-black print:rounded-none print:mb-8 print:p-4 print:page-break-inside-avoid">
-                 <div className="mb-4 flex justify-between items-start print:hidden">
-                    <span className="text-[10px] font-black text-blue-500 bg-blue-500/10 px-2 py-1 rounded uppercase">{part.category}</span>
-                    <LayoutGrid size={14} className="text-gray-700" />
+              <div key={part.id} className="bg-gray-900/50 border border-gray-800 rounded-2xl p-4 hover:border-blue-500/30 transition-all print:border-black/20 print:rounded-none print:p-0 print:m-0 print:page-break-inside-avoid shadow-sm print:shadow-none flex flex-col items-center justify-center">
+                 <div className="mb-2 flex justify-between items-center w-full px-2 print:hidden">
+                    <span className="text-[9px] font-black text-blue-500 bg-blue-500/10 px-2 py-0.5 rounded uppercase tracking-tighter">{part.category}</span>
+                    <LayoutGrid size={12} className="text-gray-700" />
                  </div>
-                 <BarcodeGenerator skuCode={part.id} />
-                 <div className="mt-4 pt-4 border-t border-gray-800/50 print:border-black/20">
-                    <p className="text-xs font-bold text-gray-400 truncate print:text-black">{part.name}</p>
-                    <div className="flex justify-between items-center mt-1">
-                       <p className="text-[10px] text-gray-600 font-mono print:text-black">Fit: {part.fitment.slice(0, 2).join(', ')}</p>
-                       <p className="text-sm font-black text-white print:text-black">NT$ {part.price.toLocaleString()}</p>
-                    </div>
+                 <div className="w-full flex justify-center">
+                    <BarcodeGenerator 
+                      skuCode={part.id} 
+                      productName={part.name} 
+                      price={part.price} 
+                    />
                  </div>
               </div>
             ))}

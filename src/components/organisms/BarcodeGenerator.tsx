@@ -1,9 +1,12 @@
 import React, { useEffect, useRef } from 'react';
 import JsBarcode from 'jsbarcode';
 import QRCode from 'qrcode';
+import { Printer } from 'lucide-react';
 
 interface BarcodeGeneratorProps {
   skuCode: string;
+  productName?: string;
+  price?: number;
   batchInfo?: {
     lot: string;
     qty: number;
@@ -11,7 +14,7 @@ interface BarcodeGeneratorProps {
   };
 }
 
-export const BarcodeGenerator: React.FC<BarcodeGeneratorProps> = ({ skuCode, batchInfo }) => {
+export const BarcodeGenerator: React.FC<BarcodeGeneratorProps> = ({ skuCode, productName, price, batchInfo }) => {
   const barcodeRef = useRef<SVGSVGElement>(null);
   const qrcodeCanvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -53,59 +56,60 @@ export const BarcodeGenerator: React.FC<BarcodeGeneratorProps> = ({ skuCode, bat
   };
 
   return (
-    <div className="flex flex-col items-center bg-white p-3 rounded-lg border border-gray-200 w-[280px] mx-auto print-container shadow-sm">
-      {/* Compact Header */}
-      <div className="w-full border-b border-black pb-1 mb-2 flex justify-between items-center">
-        <h3 className="text-black font-black text-base italic leading-none">HKRS</h3>
-        <p className="text-black text-[8px] font-bold uppercase tracking-tighter">Inventory Label</p>
+    <div className="flex flex-col bg-white p-2 rounded-lg border border-gray-200 w-full max-w-[340px] md:mx-auto print:mx-0 print:border-none print:p-0.5 print-container shadow-sm print:shadow-none overflow-hidden text-black">
+      {/* Sticker Header */}
+      <div className="flex justify-between items-center border-b border-black/80 pb-0.5 mb-1.5 px-0.5">
+        <h3 className="font-black text-lg italic leading-none tracking-tighter">HKRS</h3>
+        <span className="text-[7px] font-bold text-gray-500 uppercase tracking-widest print:text-black">Inventory Label</span>
       </div>
 
-      <div className="w-full flex items-start justify-between gap-2 mb-2">
-        {/* SKU Barcode */}
-        <div className="flex flex-col items-center flex-1">
-          <svg ref={barcodeRef} className="max-w-full h-auto"></svg>
+      <div className="flex gap-2 mb-1.5 px-0.5">
+        {/* SKU Barcode Section */}
+        <div className="flex-1 flex flex-col justify-center min-w-0">
+          <div className="mb-1">
+             <p className="text-[11px] font-black leading-tight line-clamp-2 uppercase tracking-tight">{productName || 'HKRS PART'}</p>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <svg ref={barcodeRef} className="h-[40px] max-w-full"></svg>
+          </div>
         </div>
 
-        {/* QR Code */}
-        <div className="shrink-0 flex flex-col items-center justify-center pt-1">
-          <canvas ref={qrcodeCanvasRef} className="max-w-full h-auto"></canvas>
-          <span className="text-[7px] font-black text-gray-400 uppercase mt-0.5 print:text-black">Scan Info</span>
-        </div>
-      </div>
-
-      {/* Product Metadata Table - Multi-column compact */}
-      <div className="grid grid-cols-2 gap-x-3 gap-y-1 w-full pt-1 border-t border-black/10 text-black">
-        <div>
-          <span className="text-[7px] font-bold text-gray-400 block uppercase print:text-black">SKU</span>
-          <span className="text-[10px] font-black font-mono leading-none">{skuCode}</span>
-        </div>
-        <div>
-          <span className="text-[7px] font-bold text-gray-400 block uppercase print:text-black">Batch</span>
-          <span className="text-[10px] font-black font-mono leading-none truncate block">{batchInfo?.lot || 'REG'}</span>
-        </div>
-        <div>
-          <span className="text-[7px] font-bold text-gray-400 block uppercase print:text-black">Qty</span>
-          <span className="text-[10px] font-black leading-none">{batchInfo?.qty || 0} PCS</span>
-        </div>
-        <div>
-          <span className="text-[7px] font-bold text-gray-400 block uppercase print:text-black">Date</span>
-          <span className="text-[10px] font-black leading-none">{new Date().toLocaleDateString()}</span>
+        {/* QR & Price Section */}
+        <div className="shrink-0 flex flex-col items-center justify-between border-l border-gray-100 pl-2 print:border-black/10">
+          <canvas ref={qrcodeCanvasRef} className="w-14 h-14"></canvas>
+          <div className="text-right mt-0.5">
+             <p className="text-[12px] font-black leading-none py-0.5 whitespace-nowrap">NT$ {price?.toLocaleString() || '0'}</p>
+          </div>
         </div>
       </div>
 
-      {/* Tiny Footer */}
-      <div className="mt-2 text-center opacity-40">
-         <p className="text-black font-bold text-[6px] tracking-widest uppercase italic">HKRS - Racing Parts Control</p>
+      {/* Grid Metadata Footer */}
+      <div className="grid grid-cols-4 gap-x-1 gap-y-0.5 w-full pt-1.5 border-t border-black/10 text-black px-0.5">
+        <div className="col-span-1">
+          <span className="text-[6px] font-bold text-gray-400 block uppercase print:text-black leading-none">SKU</span>
+          <span className="text-[9px] font-black font-mono leading-none truncate block">{skuCode}</span>
+        </div>
+        <div className="col-span-1 border-l border-gray-100 pl-1 print:border-black/10">
+          <span className="text-[6px] font-bold text-gray-400 block uppercase print:text-black leading-none">Batch</span>
+          <span className="text-[9px] font-black font-mono leading-none truncate block">{batchInfo?.lot || 'REG'}</span>
+        </div>
+        <div className="col-span-1 border-l border-gray-100 pl-1 print:border-black/10">
+          <span className="text-[6px] font-bold text-gray-400 block uppercase print:text-black leading-none">Qty</span>
+          <span className="text-[9px] font-black leading-none block">{batchInfo?.qty || 0} PCS</span>
+        </div>
+        <div className="col-span-1 border-l border-gray-100 pl-1 print:border-black/10 text-right">
+          <span className="text-[6px] font-bold text-gray-400 block uppercase print:text-black leading-none">Date</span>
+          <span className="text-[9px] font-black leading-none block">{new Date().toLocaleDateString('zh-TW', { month: '2-digit', day: '2-digit' })}</span>
+        </div>
       </div>
 
       {/* Action (Hidden in print) */}
-      <div className="mt-3 no-print">
+      <div className="mt-2 flex justify-center no-print border-t border-gray-50 pt-2 pb-1">
         <button 
           onClick={handlePrint}
-          className="bg-black text-white px-4 py-1.5 rounded-md font-bold text-[10px] hover:bg-gray-800 transition-colors flex items-center gap-2 shadow-lg"
+          className="bg-black text-white px-5 py-1.5 rounded-full font-bold text-[9px] hover:bg-gray-800 transition-all flex items-center gap-2 shadow-md active:scale-95"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
-          列印
+          <Printer size={10} strokeWidth={3} /> 列印標籤
         </button>
       </div>
     </div>
