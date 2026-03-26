@@ -91,7 +91,7 @@ export const Scan: React.FC = () => {
 
 
   return (
-    <div className="max-w-3xl mx-auto space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700 pb-24 md:pb-0">
+    <div className="w-full space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700 pb-24 md:pb-0">
       
       <header className="mb-6 flex justify-between items-end">
         <div>

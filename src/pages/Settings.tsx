@@ -6,7 +6,7 @@ export const Settings: React.FC = () => {
   const { theme, setTheme, scanMode, setScanMode, layoutMode, setLayoutMode } = useInventoryStore();
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700 pb-20 md:pb-0">
+    <div className="w-full space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700 pb-20 md:pb-0">
       <header className="mb-8">
         <h1 className="text-3xl font-black tracking-tight text-white mb-2">系統設定</h1>
         <p className="text-gray-400 font-medium">調整主題與掃描偏好，數據自動存於設備中 (Zustand 持久化)</p>

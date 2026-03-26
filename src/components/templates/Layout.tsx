@@ -35,8 +35,8 @@ export const Layout: React.FC = () => {
       <main className={mainClasses}>
         <div className={`
           ${layoutMode === 'mobile' ? 'w-full max-w-lg bg-[#0a0c10] min-h-screen shadow-[0_0_50px_rgba(0,0,0,0.8)] border-x border-gray-800/30' : ''}
-          ${layoutMode === 'auto' ? 'max-w-7xl mx-auto h-full relative print:max-w-none' : ''}
-          ${layoutMode === 'desktop' ? 'max-w-7xl mx-auto h-full relative print:max-w-none' : ''}
+          ${layoutMode === 'auto' ? 'max-w-none mx-0 h-full relative print:max-w-none' : ''}
+          ${layoutMode === 'desktop' ? 'max-w-none mx-0 h-full relative print:max-w-none' : ''}
           relative h-full
         `}>
           <div className={`${layoutMode === 'mobile' ? 'p-4 md:p-6' : ''} h-full relative`}>

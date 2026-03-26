@@ -57,12 +57,12 @@ export const Inventory: React.FC = () => {
   const currentDetailPart = parts.find(p => p.id === selectedPartId) || null;
 
   return (
-    <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700 pb-20 md:pb-0">
+    <div className="w-full space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700 pb-20 md:pb-0">
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
         <header>
           <div className="flex items-center gap-3 mb-2">
              <div className="w-10 h-1 h-3 bg-blue-600 rounded-full"></div>
-             <h1 className="text-3xl md:text-4xl font-black tracking-tight text-white">產品目錄庫</h1>
+              <h1 className="text-3xl md:text-5xl xl:text-6xl font-black tracking-tight text-white transition-all">產品目錄庫</h1>
           </div>
           <p className="text-gray-400 font-medium">即時管理 HKRS 全系列改裝零件與深度履歷</p>
         </header>
@@ -102,7 +102,7 @@ export const Inventory: React.FC = () => {
         </div>
       )}
 
-      <div className="bg-[#0f1115] border border-gray-800/80 rounded-3xl p-5 md:p-8 shadow-2xl space-y-8 min-h-[600px]">
+      <div className="bg-[#0f1115] border border-gray-800/80 rounded-3xl p-5 md:p-8 shadow-2xl space-y-8 min-h-[600px] w-full">
         <div className="flex flex-col xl:flex-row items-start xl:items-center gap-6">
           <div className="w-full xl:w-96">
             <SearchInput onSearch={setSearchTerm} className="shadow-inner" />
@@ -126,7 +126,7 @@ export const Inventory: React.FC = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 3xl:grid-cols-6 gap-4 md:gap-8">
           {filteredParts.map(part => (
             <PartCard 
               key={part.id} 
