@@ -203,16 +203,16 @@ export const Inventory: React.FC = () => {
                     </div>
                   )}
                   <div className={isBulkMode ? 'col-span-2' : 'col-span-2'}>
-                    <p className="text-[10px] font-mono font-bold text-blue-500/80 tracking-wider uppercase">{part.id}</p>
+                    <p className="text-xs font-mono font-bold text-blue-500 tracking-wider uppercase">{part.id}</p>
                   </div>
                   <div className={isBulkMode ? 'col-span-3' : 'col-span-4'}>
-                    <p className="text-sm font-bold text-white truncate">{part.name}</p>
+                    <p className="text-base font-bold text-white truncate">{part.name}</p>
                     <div className="flex gap-1 mt-0.5 md:hidden">
-                      <span className="text-[9px] font-bold text-gray-500 bg-gray-800 px-1.5 py-0.5 rounded">{part.category}</span>
+                      <span className="text-xs font-bold text-gray-500 bg-gray-800 px-1.5 py-0.5 rounded">{part.category}</span>
                     </div>
                   </div>
                   <div className="col-span-2 hidden md:block">
-                    <span className="text-[10px] font-bold px-2 py-0.5 bg-gray-800 text-gray-400 rounded-md border border-gray-700/50">{part.category}</span>
+                    <span className="text-xs font-bold px-2 py-1 bg-gray-800 text-gray-400 rounded-md border border-gray-700/50">{part.category}</span>
                   </div>
                   <div className="col-span-2 text-right">
                     <div className="flex items-center justify-end gap-1.5">
