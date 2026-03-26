@@ -87,31 +87,41 @@ export const Inventory: React.FC = () => {
       </div>
 
       {isBulkMode && bulkSelection.size > 0 && (
-        <div className="fixed bottom-24 left-1/2 -translate-x-1/2 z-50 bg-[#0f1115] border border-blue-500/50 rounded-2xl p-4 shadow-2xl flex items-center gap-6 animate-in slide-in-from-bottom-10 backdrop-blur-xl">
-           <p className="text-sm font-black text-white px-4 border-r border-gray-800">
-             已選擇 <span className="text-blue-500">{bulkSelection.size}</span> 項產品
-           </p>
-           <button 
-             onClick={() => {
-               if (bulkSelection.size === filteredParts.length) {
-                 setBulkSelection(new Set());
-               } else {
-                 setBulkSelection(new Set(filteredParts.map(p => p.id)));
-               }
-             }}
-             className="text-[10px] font-black uppercase tracking-widest text-blue-400 hover:text-blue-300 transition-colors px-4 border-r border-gray-800"
-           >
-             {bulkSelection.size === filteredParts.length ? '取消全選' : '全選目前結果'}
-           </button>
-           <button 
-             onClick={handlePrintSelected}
-             className="flex items-center gap-2 px-6 py-2 bg-blue-600 text-white font-black text-xs rounded-xl hover:bg-blue-500 transition-all shadow-lg"
-           >
-             <Printer size={16} /> 批量列印條碼標籤
-           </button>
-           <button onClick={() => setBulkSelection(new Set())} className="text-gray-500 hover:text-white transition-colors">
-              <X size={20} />
-           </button>
+        <div className="fixed bottom-24 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-lg bg-[#0f1115] border border-blue-500/50 rounded-2xl p-3 md:p-4 shadow-2xl flex flex-col md:flex-row md:items-center justify-between gap-3 md:gap-6 animate-in slide-in-from-bottom-10 backdrop-blur-xl">
+           <div className="flex items-center justify-between flex-1">
+             <div className="flex items-center flex-1">
+               <p className="text-xs md:text-sm font-black text-white px-2 md:px-4 border-r border-gray-800">
+                 已選擇 <span className="text-blue-500">{bulkSelection.size}</span> 項產品
+               </p>
+               <button 
+                 onClick={() => {
+                   if (bulkSelection.size === filteredParts.length) {
+                     setBulkSelection(new Set());
+                   } else {
+                     setBulkSelection(new Set(filteredParts.map(p => p.id)));
+                   }
+                 }}
+                 className="text-[10px] font-black uppercase tracking-widest text-blue-400 hover:text-blue-300 transition-colors px-3 md:px-4 md:border-r border-gray-800"
+               >
+                 {bulkSelection.size === filteredParts.length ? '取消全選' : '全選'}
+               </button>
+             </div>
+             <button onClick={() => setBulkSelection(new Set())} className="text-gray-500 hover:text-white transition-colors md:hidden pl-2">
+                <X size={18} />
+             </button>
+           </div>
+           
+           <div className="flex items-center gap-3 w-full md:w-auto">
+             <button 
+               onClick={handlePrintSelected}
+               className="flex-1 flex items-center justify-center gap-2 px-6 py-2.5 md:py-2 bg-blue-600 text-white font-black text-xs rounded-xl hover:bg-blue-500 transition-all shadow-lg"
+             >
+               <Printer size={16} /> 批量列印標籤
+             </button>
+             <button onClick={() => setBulkSelection(new Set())} className="text-gray-500 hover:text-white transition-colors hidden md:block">
+                <X size={20} />
+             </button>
+           </div>
         </div>
       )}
 
@@ -191,37 +201,54 @@ export const Inventory: React.FC = () => {
                 <div
                   key={part.id}
                   onClick={() => isBulkMode ? toggleBulkSelect(part.id, !isSelected) : setSelectedPartId(part.id)}
-                  className={`grid grid-cols-12 gap-4 items-center px-4 py-3.5 rounded-xl cursor-pointer transition-all border ${
+                  className={`flex flex-col gap-3 md:grid md:grid-cols-12 md:gap-4 md:items-center px-4 py-3.5 rounded-xl cursor-pointer transition-all border ${
                     isSelected ? 'bg-blue-600/10 border-blue-500/30' :
                     isLow ? 'bg-red-500/5 border-red-500/10 hover:border-red-500/30' :
                     'bg-gray-900/30 border-gray-800/50 hover:border-gray-700 hover:bg-gray-900/60'
                   }`}
                 >
-                  {isBulkMode && (
-                    <div className="col-span-1 flex items-center">
-                      <input type="checkbox" checked={isSelected} readOnly className="w-4 h-4 rounded border-gray-700 bg-gray-900 text-blue-600" />
+                  <div className="flex items-start justify-between md:contents">
+                    <div className="flex items-center gap-3 md:contents">
+                      {isBulkMode && (
+                        <div className="md:col-span-1 flex items-center pr-1 md:pr-0">
+                          <input type="checkbox" checked={isSelected} readOnly className="w-5 h-5 md:w-4 md:h-4 rounded border-gray-700 bg-gray-900 text-blue-600 focus:ring-blue-500 flex-shrink-0" />
+                        </div>
+                      )}
+                      <div className={`md:${isBulkMode ? 'col-span-2' : 'col-span-2'} flex flex-col justify-center`}>
+                        <p className="text-xs font-mono font-bold text-blue-500 tracking-wider uppercase">{part.id}</p>
+                      </div>
                     </div>
-                  )}
-                  <div className={isBulkMode ? 'col-span-2' : 'col-span-2'}>
-                    <p className="text-xs font-mono font-bold text-blue-500 tracking-wider uppercase">{part.id}</p>
+                    
+                    <div className="flex flex-col items-end md:hidden">
+                       <div className="flex items-center justify-end gap-1">
+                         {isLow && <AlertTriangle size={12} className="text-amber-500" />}
+                         <span className={`text-base font-black tabular-nums ${isLow ? 'text-amber-400' : 'text-white'}`}>{part.stock}</span>
+                         <span className="text-[9px] text-gray-500 mt-0.5">PCS</span>
+                       </div>
+                       <span className="text-[10px] font-bold text-gray-500 mt-0.5">安全庫存: {part.safeStock}</span>
+                    </div>
                   </div>
-                  <div className={isBulkMode ? 'col-span-3' : 'col-span-4'}>
+
+                  <div className={`md:${isBulkMode ? 'col-span-3' : 'col-span-4'}`}>
                     <p className="text-base font-bold text-white truncate">{part.name}</p>
-                    <div className="flex gap-1 mt-0.5 md:hidden">
-                      <span className="text-xs font-bold text-gray-500 bg-gray-800 px-1.5 py-0.5 rounded">{part.category}</span>
+                    <div className="flex gap-1.5 mt-1.5 md:hidden">
+                      <span className="text-[10px] font-bold text-gray-400 bg-gray-800 px-2 py-0.5 rounded border border-gray-700/50">{part.category}</span>
                     </div>
                   </div>
+
                   <div className="col-span-2 hidden md:block">
                     <span className="text-xs font-bold px-2 py-1 bg-gray-800 text-gray-400 rounded-md border border-gray-700/50">{part.category}</span>
                   </div>
-                  <div className="col-span-2 text-right">
+
+                  <div className="col-span-2 hidden md:flex text-right justify-end">
                     <div className="flex items-center justify-end gap-1.5">
                       {isLow && <AlertTriangle size={12} className="text-amber-500" />}
                       <span className={`text-lg font-black tabular-nums ${isLow ? 'text-amber-400' : 'text-white'}`}>{part.stock}</span>
                       <span className="text-[9px] text-gray-600">PCS</span>
                     </div>
                   </div>
-                  <div className="col-span-2 text-right">
+                  
+                  <div className="col-span-2 hidden md:block text-right">
                     <span className="text-sm font-bold tabular-nums text-gray-500">{part.safeStock}</span>
                     <span className="text-[9px] text-gray-700 ml-0.5">PCS</span>
                   </div>
