@@ -56,60 +56,60 @@ export const BarcodeGenerator: React.FC<BarcodeGeneratorProps> = ({ skuCode, pro
   };
 
   return (
-    <div className="flex flex-col bg-white p-2 rounded-lg border border-gray-200 w-full max-w-[340px] md:mx-auto print:mx-0 print:border-none print:p-0.5 print-container shadow-sm print:shadow-none overflow-hidden text-black">
-      {/* Sticker Header */}
-      <div className="flex justify-between items-center border-b border-black/80 pb-0.5 mb-1.5 px-0.5">
-        <h3 className="font-black text-lg italic leading-none tracking-tighter">HKRS</h3>
-        <span className="text-[7px] font-bold text-gray-500 uppercase tracking-widest print:text-black">Inventory Label</span>
+    <div className="flex flex-col bg-white p-3 rounded-none border border-gray-200 w-full max-w-[380px] md:mx-auto print:mx-0 print:border-black/30 print:p-2 print-container shadow-sm print:shadow-none overflow-hidden text-black font-sans">
+      {/* Sticker Header - Image 1 Style */}
+      <div className="flex justify-between items-end border-b-2 border-black pb-1 mb-3">
+        <h3 className="font-black text-2xl italic leading-none tracking-tighter">HKRS</h3>
+        <span className="text-[8px] font-bold text-gray-500 uppercase tracking-widest print:text-black mb-0.5">Inventory Label</span>
       </div>
 
-      <div className="flex gap-2 mb-1.5 px-0.5">
-        {/* SKU Barcode Section */}
-        <div className="flex-1 flex flex-col justify-center min-w-0">
-          <div className="mb-1">
-             <p className="text-[11px] font-black leading-tight line-clamp-2 uppercase tracking-tight">{productName || 'HKRS PART'}</p>
+      <div className="flex gap-4 mb-3 border-b border-black/10 pb-3">
+        {/* Left: Name & Barcode */}
+        <div className="flex-1 flex flex-col justify-between min-w-0">
+          <div className="mb-2">
+             <p className="text-[12px] font-bold leading-tight text-gray-900 uppercase tracking-tight truncate">{productName || 'HKRS PART'}</p>
           </div>
-          <div className="flex items-center gap-1.5">
-            <svg ref={barcodeRef} className="h-[40px] max-w-full"></svg>
+          <div className="flex flex-col items-center">
+            <svg ref={barcodeRef} className="h-[45px] w-full"></svg>
           </div>
         </div>
 
-        {/* QR & Price Section */}
-        <div className="shrink-0 flex flex-col items-center justify-between border-l border-gray-100 pl-2 print:border-black/10">
-          <canvas ref={qrcodeCanvasRef} className="w-14 h-14"></canvas>
-          <div className="text-right mt-0.5">
-             <p className="text-[12px] font-black leading-none py-0.5 whitespace-nowrap">NT$ {price?.toLocaleString() || '0'}</p>
+        {/* Right: QR & Price */}
+        <div className="shrink-0 flex flex-col items-center justify-between border-l border-black/10 pl-4 print:border-black/20">
+          <canvas ref={qrcodeCanvasRef} className="w-16 h-16"></canvas>
+          <div className="text-center mt-1">
+             <p className="text-[14px] font-black leading-none whitespace-nowrap">NT$ {price?.toLocaleString() || '0'}</p>
           </div>
         </div>
       </div>
 
-      {/* Grid Metadata Footer */}
-      <div className="grid grid-cols-4 gap-x-1 gap-y-0.5 w-full pt-1.5 border-t border-black/10 text-black px-0.5">
-        <div className="col-span-1">
-          <span className="text-[6px] font-bold text-gray-400 block uppercase print:text-black leading-none">SKU</span>
-          <span className="text-[9px] font-black font-mono leading-none truncate block">{skuCode}</span>
+      {/* Grid Metadata Footer - 4 Columns with vertical dividers like Image 1 */}
+      <div className="grid grid-cols-4 w-full text-black">
+        <div className="flex flex-col border-r border-black/10 pr-1">
+          <span className="text-[6px] font-bold text-gray-400 uppercase leading-none mb-1">SKU</span>
+          <span className="text-[9px] font-black font-mono leading-none truncate">{skuCode}</span>
         </div>
-        <div className="col-span-1 border-l border-gray-100 pl-1 print:border-black/10">
-          <span className="text-[6px] font-bold text-gray-400 block uppercase print:text-black leading-none">Batch</span>
-          <span className="text-[9px] font-black font-mono leading-none truncate block">{batchInfo?.lot || 'REG'}</span>
+        <div className="flex flex-col border-r border-black/10 px-2">
+          <span className="text-[6px] font-bold text-gray-400 uppercase leading-none mb-1">Batch</span>
+          <span className="text-[9px] font-black font-mono leading-none truncate">{batchInfo?.lot || 'BATCH-202403-A'}</span>
         </div>
-        <div className="col-span-1 border-l border-gray-100 pl-1 print:border-black/10">
-          <span className="text-[6px] font-bold text-gray-400 block uppercase print:text-black leading-none">Qty</span>
-          <span className="text-[9px] font-black leading-none block">{batchInfo?.qty || 0} PCS</span>
+        <div className="flex flex-col border-r border-black/10 px-2">
+          <span className="text-[6px] font-bold text-gray-400 uppercase leading-none mb-1">Qty</span>
+          <span className="text-[9px] font-black leading-none truncate">{batchInfo?.qty || 20} PCS</span>
         </div>
-        <div className="col-span-1 border-l border-gray-100 pl-1 print:border-black/10 text-right">
-          <span className="text-[6px] font-bold text-gray-400 block uppercase print:text-black leading-none">Date</span>
-          <span className="text-[9px] font-black leading-none block">{new Date().toLocaleDateString('zh-TW', { month: '2-digit', day: '2-digit' })}</span>
+        <div className="flex flex-col pl-2 text-right">
+          <span className="text-[6px] font-bold text-gray-400 uppercase leading-none mb-1">Date</span>
+          <span className="text-[9px] font-black leading-none truncate">{new Date().toLocaleDateString('zh-TW', { month: '2-digit', day: '2-digit' })}</span>
         </div>
       </div>
 
       {/* Action (Hidden in print) */}
-      <div className="mt-2 flex justify-center no-print border-t border-gray-50 pt-2 pb-1">
+      <div className="mt-4 flex justify-center no-print">
         <button 
           onClick={handlePrint}
-          className="bg-black text-white px-5 py-1.5 rounded-full font-bold text-[9px] hover:bg-gray-800 transition-all flex items-center gap-2 shadow-md active:scale-95"
+          className="bg-black text-white px-8 py-2.5 rounded-full font-black text-[11px] transition-all flex items-center gap-2 shadow-xl active:scale-95 border-2 border-emerald-500/50 hover:bg-emerald-600 hover:border-emerald-400 group"
         >
-          <Printer size={10} strokeWidth={3} /> 列印標籤
+          <Printer size={14} strokeWidth={3} className="text-emerald-400 group-hover:text-white" /> 列印標籤
         </button>
       </div>
     </div>
