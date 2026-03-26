@@ -6,13 +6,14 @@ import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 import compression from 'vite-plugin-compression'
 import basicSsl from '@vitejs/plugin-basic-ssl'
+import { IncomingMessage, ServerResponse } from 'http'
 
 const localApiPlugin = () => {
   const dbPath = path.resolve(__dirname, 'hkrs-db.json')
   return {
     name: 'local-api-plugin',
-    configureServer(server) {
-      server.middlewares.use('/api/sync', (req, res) => {
+    configureServer(server: any) {
+      server.middlewares.use('/api/sync', (req: IncomingMessage, res: ServerResponse) => {
         res.setHeader('Access-Control-Allow-Origin', '*');
         res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
         res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -31,7 +32,7 @@ const localApiPlugin = () => {
           }
         } else if (req.method === 'POST') {
           let body = ''
-          req.on('data', chunk => { body += chunk.toString() })
+          req.on('data', (chunk: any) => { body += chunk.toString() })
           req.on('end', () => {
             fs.writeFileSync(dbPath, body)
             res.setHeader('Content-Type', 'application/json')
@@ -55,7 +56,7 @@ export default defineConfig({
     compression(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['apple-icon.png', 'vite.svg'],
+      includeAssets: ['apple-icon.png'],
       manifest: {
         name: '皇凱貿易-HKRS 庫存管理系統',
         short_name: 'HKRS Stock',
@@ -71,9 +72,9 @@ export default defineConfig({
             type: 'image/png'
           },
           {
-            src: '/vite.svg',
+            src: '/apple-icon.png',
             sizes: '192x192 512x512',
-            type: 'image/svg+xml'
+            type: 'image/png'
           }
         ]
       },

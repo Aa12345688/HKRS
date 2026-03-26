@@ -15,7 +15,7 @@ declare global {
 }
 
 interface CameraViewProps {
-    videoRef: RefObject<HTMLVideoElement | null>;
+    videoRef: RefObject<HTMLVideoElement>;
 }
 
 /**
