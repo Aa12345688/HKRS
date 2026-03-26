@@ -39,12 +39,14 @@ interface InventoryState {
   transactions: Transaction[];
   theme: 'dark' | 'light';
   scanMode: 'auto' | 'manual';
+  isSidebarCollapsed: boolean;
   
   // Actions
   addPart: (part: PartItem) => { success: boolean, message: string };
   updateStock: (id: string, amount: number, note?: string) => boolean;
   setTheme: (theme: 'dark' | 'light') => void;
   setScanMode: (mode: 'auto' | 'manual') => void;
+  setSidebarCollapsed: (collapsed: boolean) => void;
   clearTransactions: () => void;
 }
 
@@ -55,6 +57,7 @@ export const useInventoryStore = create<InventoryState>()(
       transactions: [],
       theme: 'dark',
       scanMode: 'auto',
+      isSidebarCollapsed: false,
 
       addPart: (part) => {
         const state = get();
@@ -98,6 +101,7 @@ export const useInventoryStore = create<InventoryState>()(
       
       setTheme: (theme) => set({ theme }),
       setScanMode: (scanMode) => set({ scanMode }),
+      setSidebarCollapsed: (isSidebarCollapsed) => set({ isSidebarCollapsed }),
       clearTransactions: () => set({ transactions: [] }),
     }),
     {

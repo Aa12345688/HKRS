@@ -4,6 +4,7 @@ import { Sidebar } from '../organisms/Sidebar';
 import { useInventoryStore } from '../../store/useInventoryStore';
 
 export const Layout: React.FC = () => {
+  const isSidebarCollapsed = useInventoryStore(state => state.isSidebarCollapsed);
   const theme = useInventoryStore(state => state.theme);
 
   useEffect(() => {
@@ -19,7 +20,7 @@ export const Layout: React.FC = () => {
       <div className="no-print">
         <Sidebar />
       </div>
-      <main className="md:ml-64 p-4 md:p-8 pb-24 md:pb-8 min-h-screen print:ml-0 print:p-0">
+      <main className={`${isSidebarCollapsed ? 'md:ml-20' : 'md:ml-64'} p-4 md:p-8 pb-24 md:pb-8 min-h-screen print:ml-0 print:p-0 transition-all duration-300`}>
         <div className="max-w-7xl mx-auto h-full relative print:max-w-none">
           <Outlet />
         </div>
