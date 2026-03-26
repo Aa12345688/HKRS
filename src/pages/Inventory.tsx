@@ -63,7 +63,7 @@ export const Inventory: React.FC = () => {
         <header>
           <div className="flex items-center gap-3 mb-2">
              <div className="w-10 h-1 h-3 bg-blue-600 rounded-full"></div>
-              <h1 className="text-3xl md:text-5xl xl:text-6xl font-black tracking-tight text-white transition-all">產品目錄庫</h1>
+              <h1 className="text-3xl font-black tracking-tight text-white">產品目錄庫</h1>
           </div>
           <p className="text-gray-400 font-medium">即時管理 HKRS 全系列改裝零件與深度履歷</p>
         </header>
