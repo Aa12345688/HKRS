@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router';
-import { Plus, X, Filter, Printer, CheckSquare, Square } from 'lucide-react';
+import { Plus, X, Printer, CheckSquare, Square, LayoutGrid, List, AlertTriangle } from 'lucide-react';
 import { SearchInput } from '../components/molecules/SearchInput';
 import { PartCard, PartItem } from '../components/molecules/PartCard';
 import { Button } from '../components/atoms/Button';
@@ -19,6 +19,7 @@ export const Inventory: React.FC = () => {
   const [selectedPartId, setSelectedPartId] = useState<string | null>(null);
   const [isBulkMode, setIsBulkMode] = useState(false);
   const [bulkSelection, setBulkSelection] = useState<Set<string>>(new Set());
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
 
   const navigate = useNavigate();
   const { parts, transactions, addPart } = useInventoryStore();
@@ -135,20 +136,100 @@ export const Inventory: React.FC = () => {
                 {cat}
               </button>
             ))}
+            {/* View Mode Toggle */}
+            <div className="ml-auto flex items-center gap-1 bg-gray-900 border border-gray-800 rounded-xl p-1 shrink-0">
+              <button
+                onClick={() => setViewMode('grid')}
+                className={`p-2 rounded-lg transition-all ${viewMode === 'grid' ? 'bg-blue-600 text-white shadow-lg' : 'text-gray-500 hover:text-white'}`}
+                title="卡片檢視"
+              >
+                <LayoutGrid size={16} />
+              </button>
+              <button
+                onClick={() => setViewMode('list')}
+                className={`p-2 rounded-lg transition-all ${viewMode === 'list' ? 'bg-blue-600 text-white shadow-lg' : 'text-gray-500 hover:text-white'}`}
+                title="條列檢視"
+              >
+                <List size={16} />
+              </button>
+            </div>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 4xl:grid-cols-4 5xl:grid-cols-5 gap-4 md:gap-12">
-          {filteredParts.map(part => (
-            <PartCard 
-              key={part.id} 
-              part={{...part, isSelected: bulkSelection.has(part.id)}} 
-              selectable={isBulkMode}
-              onSelect={(selected) => toggleBulkSelect(part.id, selected)}
-              onClick={() => setSelectedPartId(part.id)}
-            />
-          ))}
-        </div>
+        {/* === GRID VIEW === */}
+        {viewMode === 'grid' && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 4xl:grid-cols-4 5xl:grid-cols-5 gap-4 md:gap-12">
+            {filteredParts.map(part => (
+              <PartCard 
+                key={part.id} 
+                part={{...part, isSelected: bulkSelection.has(part.id)}} 
+                selectable={isBulkMode}
+                onSelect={(selected) => toggleBulkSelect(part.id, selected)}
+                onClick={() => setSelectedPartId(part.id)}
+              />
+            ))}
+          </div>
+        )}
+
+        {/* === LIST VIEW === */}
+        {viewMode === 'list' && (
+          <div className="space-y-2">
+            {/* Table Header */}
+            <div className="hidden md:grid grid-cols-12 gap-4 px-4 py-2 text-[10px] font-black text-gray-500 uppercase tracking-widest border-b border-gray-800">
+              {isBulkMode && <div className="col-span-1"></div>}
+              <div className={isBulkMode ? 'col-span-2' : 'col-span-2'}>SKU</div>
+              <div className={isBulkMode ? 'col-span-3' : 'col-span-4'}>產品名稱</div>
+              <div className="col-span-2">分類</div>
+              <div className="col-span-2 text-right">庫存</div>
+              <div className="col-span-2 text-right">安全庫存</div>
+            </div>
+            {/* Table Body */}
+            {filteredParts.map(part => {
+              const isLow = part.stock <= part.safeStock;
+              const isSelected = bulkSelection.has(part.id);
+              return (
+                <div
+                  key={part.id}
+                  onClick={() => isBulkMode ? toggleBulkSelect(part.id, !isSelected) : setSelectedPartId(part.id)}
+                  className={`grid grid-cols-12 gap-4 items-center px-4 py-3.5 rounded-xl cursor-pointer transition-all border ${
+                    isSelected ? 'bg-blue-600/10 border-blue-500/30' :
+                    isLow ? 'bg-red-500/5 border-red-500/10 hover:border-red-500/30' :
+                    'bg-gray-900/30 border-gray-800/50 hover:border-gray-700 hover:bg-gray-900/60'
+                  }`}
+                >
+                  {isBulkMode && (
+                    <div className="col-span-1 flex items-center">
+                      <input type="checkbox" checked={isSelected} readOnly className="w-4 h-4 rounded border-gray-700 bg-gray-900 text-blue-600" />
+                    </div>
+                  )}
+                  <div className={isBulkMode ? 'col-span-2' : 'col-span-2'}>
+                    <p className="text-[10px] font-mono font-bold text-blue-500/80 tracking-wider uppercase">{part.id}</p>
+                  </div>
+                  <div className={isBulkMode ? 'col-span-3' : 'col-span-4'}>
+                    <p className="text-sm font-bold text-white truncate">{part.name}</p>
+                    <div className="flex gap-1 mt-0.5 md:hidden">
+                      <span className="text-[9px] font-bold text-gray-500 bg-gray-800 px-1.5 py-0.5 rounded">{part.category}</span>
+                    </div>
+                  </div>
+                  <div className="col-span-2 hidden md:block">
+                    <span className="text-[10px] font-bold px-2 py-0.5 bg-gray-800 text-gray-400 rounded-md border border-gray-700/50">{part.category}</span>
+                  </div>
+                  <div className="col-span-2 text-right">
+                    <div className="flex items-center justify-end gap-1.5">
+                      {isLow && <AlertTriangle size={12} className="text-amber-500" />}
+                      <span className={`text-lg font-black tabular-nums ${isLow ? 'text-amber-400' : 'text-white'}`}>{part.stock}</span>
+                      <span className="text-[9px] text-gray-600">PCS</span>
+                    </div>
+                  </div>
+                  <div className="col-span-2 text-right">
+                    <span className="text-sm font-bold tabular-nums text-gray-500">{part.safeStock}</span>
+                    <span className="text-[9px] text-gray-700 ml-0.5">PCS</span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
       </div>
 
       <PartDetailDrawer 
