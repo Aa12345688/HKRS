@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router';
+import { createHashRouter } from 'react-router';
 import { Layout } from '../components/templates/Layout';
 import { Inventory } from '../pages/Inventory';
 import { Scan } from '../pages/Scan';
@@ -6,7 +6,7 @@ import { Settings } from '../pages/Settings';
 import { BulkPrintPage } from '../pages/BulkPrint';
 import { BarcodeTestPage } from '../pages/BarcodeTest';
 
-export const router = createBrowserRouter([
+export const router = createHashRouter([
   {
     path: '/',
     element: <Layout />,
