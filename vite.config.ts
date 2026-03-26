@@ -44,7 +44,7 @@ const localApiPlugin = () => {
 }
 
 export default defineConfig({
-  base: "/KitchenAI0322/",
+  base: "/HKRS/",
   plugins: [
     basicSsl(),
     localApiPlugin(),
