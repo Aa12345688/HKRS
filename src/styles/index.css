@@ -6,21 +6,10 @@
     --zoom-factor: 1;
 }
 
-/* 4K+ / High-DPI Scaling Strategy - Aggressive Mode */
-@media (min-width: 1920px) {
-    :root { --zoom-factor: 1.25; }
-}
-@media (min-width: 2560px) {
-    :root { --zoom-factor: 1.5; }
-}
-@media (min-width: 3000px) {
-    :root { --zoom-factor: 1.75; }
+html {
+    font-size: 16px;
 }
 
-html {
-    /* 透過調整基礎字體大小，驅動全網頁的 rem 單位隨縮放因子變動 */
-    font-size: calc(16px * var(--zoom-factor));
-}
 
 /* Light Theme Strategy using extreme CSS filters to easily contrast everything without needing to override every utility class */
 .light-theme .filter-theme {
