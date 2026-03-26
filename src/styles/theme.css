@@ -2,52 +2,42 @@
 
 :root {
   --font-size: 16px;
-  --font-pixel: 'DotGothic16', 'Press Start 2P', system-ui, sans-serif;
-  --font-heading: 'Press Start 2P', 'DotGothic16', system-ui, sans-serif;
+  --font-main: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-heading: 'Inter', system-ui, -apple-system, sans-serif;
   
-  --background: #0f2e24;
-  --foreground: #ffffff;
-  --card: #1a4d3d;
+  --background: #050608;
+  --foreground: #f3f4f6;
+  --card: #0f1115;
   --card-foreground: #ffffff;
-  --popover: #0f2e24;
+  --popover: #0a0c10;
   --popover-foreground: #ffffff;
-  --primary: #00ff88;
-  --primary-foreground: #0f2e24;
-  --secondary: #1a4d3d;
-  --secondary-foreground: #00ff88;
-  --muted: #13392d;
-  --muted-foreground: #a0a0a0;
-  --accent: #2c6e5a;
-  --accent-foreground: #00ff88;
-  --destructive: #d4183d;
+  --primary: #3b82f6;
+  --primary-foreground: #ffffff;
+  --secondary: #1e293b;
+  --secondary-foreground: #94a3b8;
+  --muted: #1e293b;
+  --muted-foreground: #64748b;
+  --accent: #1e40af;
+  --accent-foreground: #93c5fd;
+  --destructive: #ef4444;
   --destructive-foreground: #ffffff;
-  --border: #00ff88;
+  --border: #1f2937;
   --input: transparent;
-  --input-background: #13392d;
-  --switch-background: #1a4d3d;
-  --font-weight-medium: 400; /* Pixel fonts usually don't have multiple weights */
+  --input-background: #111318;
+  --switch-background: #1e293b;
+  --font-weight-medium: 500;
   --font-weight-normal: 400;
-  --ring: #00ff88;
-  --radius: 0px; /* Pixel art use sharp edges */
+  --ring: #3b82f6;
+  --radius: 0.75rem;
   
-  --sidebar: #0f2e24;
-  --sidebar-foreground: #ffffff;
-  --sidebar-primary: #00ff88;
-  --sidebar-primary-foreground: #0f2e24;
-  --sidebar-accent: #1a4d3d;
-  --sidebar-accent-foreground: #00ff88;
-  --sidebar-border: #00ff88;
-  --sidebar-ring: #00ff88;
-  --glow-primary: 0 0 10px rgba(0, 255, 136, 0.4), 0 0 20px rgba(0, 255, 136, 0.2);
-  --glow-accent: 0 0 15px rgba(44, 110, 90, 0.5);
-  --pixel-shadow: 4px 4px 0px 0px rgba(0, 0, 0, 0.5);
-}
-
-.dark {
-  /* Keep similar for dark theme or refine high-contrast */
-  --background: #051410;
-  --card: #0c241d;
-  --border: #00ff88;
+  --sidebar: #0a0c10;
+  --sidebar-foreground: #f3f4f6;
+  --sidebar-primary: #3b82f6;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #1e293b;
+  --sidebar-accent-foreground: #93c5fd;
+  --sidebar-border: #1f2937;
+  --sidebar-ring: #3b82f6;
 }
 
 @theme inline {
@@ -72,10 +62,10 @@
   --color-input-background: var(--input-background);
   --color-switch-background: var(--switch-background);
   --color-ring: var(--ring);
-  --radius-sm: 0px;
-  --radius-md: 0px;
-  --radius-lg: 0px;
-  --radius-xl: 0px;
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
@@ -89,38 +79,31 @@
 @layer base {
   * {
     @apply border-border outline-ring/50;
-    image-rendering: pixelated;
-    image-rendering: crisp-edges;
   }
 
   html {
     font-size: var(--font-size);
-    font-family: var(--font-pixel);
+    font-family: var(--font-main);
   }
 
   body {
     @apply bg-background text-foreground;
-    font-family: var(--font-pixel);
-    -webkit-font-smoothing: none;
+    font-family: var(--font-main);
+    -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
   h1, h2, h3, h4 {
     font-family: var(--font-heading);
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: -0.02em;
   }
 
-  h1 { font-size: 1.5rem; line-height: 2; margin-bottom: 1rem; }
-  h2 { font-size: 1.25rem; line-height: 1.8; }
-  h3 { font-size: 1.1rem; line-height: 1.6; }
-  
   button {
-    font-family: var(--font-pixel);
+    font-family: var(--font-main);
     cursor: pointer;
-    text-transform: uppercase;
   }
 }
+
 
 /* 像素風格邊框 (Pixel Art Border) */
 .pixel-border {
