@@ -1,0 +1,160 @@
+@import './fonts.css';
+@import './tailwind.css';
+@import './theme.css';
+
+:root {
+    --zoom-factor: 1;
+}
+
+html {
+    /* 透過調整基礎字體大小，驅動全網頁的 rem 單位隨縮放因子變動 */
+    font-size: calc(16px * var(--zoom-factor));
+}
+
+/* Light Theme Strategy using extreme CSS filters to easily contrast everything without needing to override every utility class */
+.light-theme .filter-theme {
+    filter: invert(1) hue-rotate(180deg) brightness(0.95);
+}
+
+.light-theme .filter-theme img,
+.light-theme .filter-theme video,
+.light-theme .filter-theme [style*="background-image"] {
+    filter: invert(1) hue-rotate(180deg);
+}
+
+/* Global Scrollbar Hiding for Mobile Experience */
+* {
+    scrollbar-width: none !important; /* Firefox */
+    -ms-overflow-style: none !important; /* IE/Edge */
+}
+
+::-webkit-scrollbar {
+    display: none !important; /* Chrome, Safari, Opera */
+    width: 0 !important;
+    height: 0 !important;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none !important;
+}
+
+/* ── Retro Pixel Effects ── */
+
+/* CRT Scanline Overlay */
+body::after {
+    content: " ";
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
+                linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02));
+    z-index: 9999;
+    background-size: 100% 4px, 3px 100%;
+    pointer-events: none;
+    opacity: 0.3;
+}
+
+/* ── 行動端效能補強 ── */
+
+/* 1. 為動畫元素啟用 GPU 指令 */
+.performance-layer {
+    will-change: transform, opacity;
+    transform: translateZ(0); /* 強制觸發硬體加速 */
+    backface-visibility: hidden;
+}
+
+/* 2. 視窗內渲染優化：針對長列表 */
+.optimize-list {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 500px; /* 預估高度，防止滾動條跳動 */
+}
+
+/* 3. 重要：針對行動端（不支援 hover 的設備）自動減弱濾鏡 */
+@media (hover: none) {
+    .backdrop-blur-xl, 
+    .backdrop-blur-2xl,
+    .backdrop-blur-3xl {
+        backdrop-filter: blur(8px) !important; /* 強制降級，減少 GPU 負擔 */
+        -webkit-backdrop-filter: blur(8px) !important;
+    }
+    
+    /* 移除部分不必要的陰影以提升滾動流暢度 */
+    .shadow-2xl, .shadow-3xl {
+        box-shadow: 4px 4px 0px rgba(0,0,0,0.5) !important;
+    }
+}
+
+/* ── 食安審核步驟 fadeIn 動畫 ── */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateX(-16px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.pixel-fade-in {
+    animation: fadeIn 0.3s steps(4) forwards;
+}
+
+/* 骨架屏流光動畫 */
+@keyframes shimmer {
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+/* ── Print Mode Optimization ── */
+@media print {
+    /* 1. Hide UI Overlays & Interactive elements */
+    body::after, 
+    .no-print,
+    header.no-print,
+    nav, 
+    .sidebar-container { 
+        display: none !important; 
+    }
+
+    /* 2. Reset Theme for Paper */
+    .filter-theme { 
+        filter: none !important; 
+        background: white !important;
+        color: black !important;
+        -webkit-filter: none !important;
+    }
+
+    body { 
+        background: white !important; 
+        color: black !important; 
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        visibility: visible !important;
+    }
+
+    /* 3. Force Label Visibility */
+    .print-container, 
+    .print-container * {
+        visibility: visible !important;
+        display: block !important;
+        opacity: 1 !important;
+        background: white !important;
+        color: black !important;
+    }
+
+    svg, canvas, img {
+        display: inline-block !important;
+        visibility: visible !important;
+    }
+
+    main {
+        margin: 0 !important;
+        padding: 0 !important;
+        background: white !important;
+    }
+}
