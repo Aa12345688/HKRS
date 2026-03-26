@@ -6,10 +6,21 @@
     --zoom-factor: 1;
 }
 
-html {
-    font-size: 16px;
+/* 4K+ Uniform Scaling — uses zoom instead of font-size to scale EVERYTHING equally */
+@media (min-width: 1920px) {
+    :root { --zoom-factor: 1.2; }
+}
+@media (min-width: 2560px) {
+    :root { --zoom-factor: 1.4; }
+}
+@media (min-width: 3000px) {
+    :root { --zoom-factor: 1.6; }
 }
 
+html {
+    font-size: 16px;
+    zoom: var(--zoom-factor);
+}
 
 /* Light Theme Strategy using extreme CSS filters to easily contrast everything without needing to override every utility class */
 .light-theme .filter-theme {
