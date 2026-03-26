@@ -1,9 +1,11 @@
 import React from 'react';
-import { Settings as SettingsIcon, Bell, Shield, Database, Smartphone, Moon, Sun, Monitor } from 'lucide-react';
+import { Settings as SettingsIcon, Bell, Shield, Database, Smartphone, Moon, Sun, Monitor, Radio } from 'lucide-react';
 import { useInventoryStore } from '../store/useInventoryStore';
+import { useIsMobile } from '../hooks/useMediaQuery';
 
 export const Settings: React.FC = () => {
   const { theme, setTheme, scanMode, setScanMode, layoutMode, setLayoutMode } = useInventoryStore();
+  const isMobileSensed = useIsMobile();
 
   return (
     <div className="w-full space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700 pb-20 md:pb-0">
@@ -92,6 +94,27 @@ export const Settings: React.FC = () => {
                   <span className="text-sm">強制電腦版</span>
                 </button>
               </div>
+              
+              {layoutMode === 'auto' && (
+                <div className="mt-4 p-4 bg-blue-500/5 border border-blue-500/10 rounded-2xl flex items-center justify-between animate-in fade-in duration-500">
+                  <div className="flex items-center gap-3">
+                    <div className="relative">
+                      <Radio size={18} className="text-blue-500" />
+                      <div className="absolute inset-0 bg-blue-500 blur-md opacity-20 animate-pulse"></div>
+                    </div>
+                    <div>
+                      <p className="text-[10px] font-black text-blue-500/60 uppercase tracking-widest">系統自動感應中</p>
+                      <p className="text-sm font-bold text-white">
+                        目前偵測：{isMobileSensed ? '行動裝置 / 窄螢幕模式' : '桌上型電腦 / 寬螢幕模式'}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="px-3 py-1 bg-blue-500/10 rounded-full border border-blue-500/20">
+                    <span className="text-[9px] font-black text-blue-400 uppercase tracking-tighter animate-pulse">Live</span>
+                  </div>
+                </div>
+              )}
+
               <p className="text-[10px] text-gray-500 mt-3 italic">「強制手機版」會在電腦畫面上呈現置中的行動端 HUD 容器。</p>
             </div>
 
