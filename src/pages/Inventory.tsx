@@ -91,6 +91,18 @@ export const Inventory: React.FC = () => {
              已選擇 <span className="text-blue-500">{bulkSelection.size}</span> 項產品
            </p>
            <button 
+             onClick={() => {
+               if (bulkSelection.size === filteredParts.length) {
+                 setBulkSelection(new Set());
+               } else {
+                 setBulkSelection(new Set(filteredParts.map(p => p.id)));
+               }
+             }}
+             className="text-[10px] font-black uppercase tracking-widest text-blue-400 hover:text-blue-300 transition-colors px-4 border-r border-gray-800"
+           >
+             {bulkSelection.size === filteredParts.length ? '取消全選' : '全選目前結果'}
+           </button>
+           <button 
              onClick={handlePrintSelected}
              className="flex items-center gap-2 px-6 py-2 bg-blue-600 text-white font-black text-xs rounded-xl hover:bg-blue-500 transition-all shadow-lg"
            >
